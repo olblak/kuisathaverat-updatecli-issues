@@ -23,7 +23,7 @@ jobs:
         run: |
           for channel in "01" "02"; do
             export UPDATE_CHANNEL="${channel}"
-            updatecli update --config ./issue-2211
+            updatecli apply --config ./issue-2211
           done
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
