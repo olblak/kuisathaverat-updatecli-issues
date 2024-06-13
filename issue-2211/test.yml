@@ -30,9 +30,9 @@ sources:
     name: 'Check {{ $updateChannel }} channel'
     kind: shell
     spec:
-      command: sleep 30; echo "3.${RANDOM}"
+      command: sleep 120; echo "${RUN_NUMBER}"
       environments:
-        - name: RANDOM
+        - name: RUN_NUMBER
 targets:
   update-channel:
     name: "Updating {{ $updateChannel }} version"
