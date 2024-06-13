@@ -31,4 +31,4 @@ jobs:
           done
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RANDOM: ${{ github.run_number }}"
+          RANDOM: ${{ github.run_number }}
