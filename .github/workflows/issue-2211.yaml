@@ -3,6 +3,10 @@ name: issue-2211
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -23,7 +27,7 @@ jobs:
         run: |
           for channel in "01" "02"; do
             export UPDATE_CHANNEL="${channel}"
-            updatecli apply --config ./issue-2211
+            updatecli apply --config ./issue-2211/test.yml
           done
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
