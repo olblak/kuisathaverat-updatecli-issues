@@ -1,0 +1,44 @@
+---
+# yaml-language-server: $schema=https://www.updatecli.io/schema/latest/config.json
+# {{ $updateChannel := requiredEnv "UPDATE_CHANNEL" }}
+name: Update update channels {{ $updateChannel }}
+scms:
+  githubConfig:
+    kind: "github"
+    spec:
+      user: '{{ requiredEnv "GIT_USER" }}'
+      email: '{{ requiredEnv "GIT_EMAIL" }}'
+      owner: '{{ requiredEnv "GITHUB_OWNER" }}'
+      repository: '{{ requiredEnv "GITHUB_REPO" }}'
+      token: '{{ requiredEnv "GITHUB_TOKEN" }}'
+      username: '{{ requiredEnv "GIT_USER" }}'
+      branch: "main"
+      force: true
+actions:
+  createpr:
+    kind: github/pullrequest
+    scmid: githubConfig
+    spec:
+      mergemethod: squash
+      title: '[updatecli] Update {{ $updateChannel }}'
+      description: 'Update channels new versions.'
+      labels:
+        - "update-channels"
+        - "{{ $updateChannel }}"
+sources:
+  version:
+    name: 'Check {{ $updateChannel }} channel'
+    kind: shell
+    spec:
+      command: sleep 30; echo "3.${RANDOM}"
+      environments:
+        - name: RANDOM
+targets:
+  update-channel:
+    name: "Updating {{ $updateChannel }} version"
+    sourceid: version
+    scmid: githubConfig
+    kind: file
+    spec:
+      file: "issue-2211/file-{{ $updateChannel }}.txt"
+      forcecreate: true
